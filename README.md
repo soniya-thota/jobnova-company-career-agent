@@ -1,10 +1,8 @@
 # Jobnova Company Career Agent
 
-An AI-powered career discovery agent that automatically finds the official company careers page from a LinkedIn job posting.
+A browser automation tool that discovers a company's official careers page from a LinkedIn job posting.
 
-Instead of manually searching through company websites, the agent extracts information from a LinkedIn job URL, identifies the company's recruitment platform, and locates the corresponding career page and matching job posting.
-
----
+The application extracts company information from a LinkedIn job URL, follows the application flow, identifies the recruitment platform, and locates the corresponding careers page and matching job opening. It is built with FastAPI, Playwright, and a lightweight JavaScript frontend.
 
 ## Features
 
@@ -220,8 +218,12 @@ This layered approach improves robustness across companies using different hirin
 MS in Computer Science  
 University at Buffalo
 
+LinkedIn: https://www.linkedin.com/in/soniya-thota/
+
+GitHub: https://github.com/soniya-thota
+
 ---
 
-## License
+## About This Project
 
-This project was developed as part of an AI engineering take-home assignment and is intended for educational and demonstration purposes.
+This project was developed as part of a software engineering internship technical assessment. It demonstrates browser automation, backend API development, and career-page discovery using Playwright and FastAPI.
