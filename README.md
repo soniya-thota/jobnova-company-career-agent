@@ -1,63 +1,227 @@
-# Jobnova Company Career Agent v3
+# Jobnova Company Career Agent
 
-A FastAPI + Playwright agent for Part 2 of the Jobnova AI Engineer take-home challenge. It accepts a LinkedIn job URL, captures the external Apply destination, classifies the hiring provider, derives the careers portal, and returns one opening URL.
+An AI-powered career discovery agent that automatically finds the official company careers page from a LinkedIn job posting.
 
-## Output
+Instead of manually searching through company websites, the agent extracts information from a LinkedIn job URL, identifies the company's recruitment platform, and locates the corresponding career page and matching job posting.
 
-- Company name
-- Official company website when it can be verified
-- Careers page URL
-- Opening URL
-- Provider, confidence, discovery time, and warnings
+---
 
-## Windows setup
+## Features
 
-```bat
-cd jobnova-company-career-agent-v3\backend
+- Extract company information from LinkedIn job URLs
+- Detect common Applicant Tracking Systems (ATS)
+  - Workday
+  - Greenhouse
+  - Lever
+  - Ashby
+  - RippleHire
+  - TCS iBegin
+  - Google Careers
+  - Amazon Jobs
+- Discover the official company website
+- Locate the company's careers page
+- Find the matching job opening when available
+- Return structured JSON results
+- Optional browser automation mode for debugging
+
+---
+
+## Demo Workflow
+
+```
+LinkedIn Job URL
+        │
+        ▼
+Extract Company Information
+        │
+        ▼
+Detect ATS / Career Platform
+        │
+        ▼
+Find Official Company Website
+        │
+        ▼
+Locate Careers Page
+        │
+        ▼
+Find Matching Job Opening
+        │
+        ▼
+Return Structured Results
+```
+
+---
+
+## Tech Stack
+
+### Backend
+
+- Python 3
+- FastAPI
+- Playwright
+- Uvicorn
+
+### Frontend
+
+- HTML
+- CSS
+- JavaScript
+
+### Development
+
+- Docker
+- Docker Compose
+- Git
+
+---
+
+## Project Structure
+
+```
+jobnova-company-career-agent/
+│
+├── backend/
+│   ├── app/
+│   │   ├── agent.py
+│   │   ├── main.py
+│   │   ├── models.py
+│   │   ├── providers.py
+│   │   └── utils.py
+│   │
+│   ├── tests/
+│   ├── login.py
+│   ├── run_windows.py
+│   └── requirements.txt
+│
+├── frontend/
+│   ├── index.html
+│   ├── app.js
+│   └── style.css
+│
+├── Dockerfile
+├── docker-compose.yml
+├── README.md
+└── .gitignore
+```
+
+---
+
+## Installation
+
+Clone the repository.
+
+```bash
+git clone https://github.com/soniya-thota/jobnova-company-career-agent.git
+
+cd jobnova-company-career-agent
+```
+
+Create a virtual environment.
+
+```bash
+cd backend
+
 python -m venv .venv
+
+# Windows
 .venv\Scripts\activate
+```
+
+Install dependencies.
+
+```bash
 pip install -r requirements.txt
+
 playwright install chromium
+```
+
+---
+
+## Running the Project
+
+Start the backend.
+
+```bash
 python login.py
 python run_windows.py
 ```
 
-Open `http://127.0.0.1:8000`.
+Open the application.
 
-The **Watch browser automation** checkbox is empty by default. Leave it unchecked for headless operation; check it only when you want to watch the browser.
+```
+http://127.0.0.1:8000
+```
 
-## API
+---
 
-`POST /api/v1/discover`
+## Example Request
+
+Input:
+
+```
+https://www.linkedin.com/jobs/view/...
+```
+
+Example response:
 
 ```json
 {
-  "linkedin_url": "https://www.linkedin.com/jobs/view/4437649151",
-  "show_browser": false
+  "company_name": "Google",
+  "company_website_url": "https://about.google/",
+  "career_page_url": "https://www.google.com/about/careers/applications",
+  "open_position_url": "https://www.google.com/about/careers/applications/jobs/results/...",
+  "provider": "Google Careers",
+  "status": "success"
 }
 ```
 
-Health check: `GET /api/v1/health`
+---
 
-## Tests
+## Design Decisions
 
-```bat
-cd backend
-pytest
-```
+The agent uses a multi-step discovery pipeline rather than relying on a single search result.
 
-## Docker
+1. Extract metadata from the LinkedIn job page.
+2. Follow the Apply link.
+3. Detect the recruitment platform.
+4. Identify the official company website.
+5. Locate the careers page.
+6. Search for the corresponding job posting.
+7. Return structured results with discovered links.
 
-```bash
-docker compose up --build
-```
+This layered approach improves robustness across companies using different hiring platforms.
 
-Headed browser mode is intended for local execution; Docker should normally use `show_browser: false`.
+---
 
-## Supported provider classification
+## Current Limitations
 
-Greenhouse, Ashby, Lever, Workday, SmartRecruiters, iCIMS, SuccessFactors, Oracle, RippleHire, TCS iBegin, Amazon Jobs, and generic career portals.
+- Some companies require authentication before exposing job details.
+- Certain ATS providers limit automated access.
+- Dynamic websites may occasionally require retries.
+- Browser automation is intended for local execution.
 
-## Known limitations
+---
 
-LinkedIn may change its markup, require authentication, rate-limit requests, or remove expired jobs. Some ATS pages do not expose an official corporate website. In those cases, the agent returns the verified external role and a derived careers portal with an explicit warning rather than inventing data.
+## Future Improvements
+
+- Support additional ATS providers
+- Better company name normalization
+- Confidence scoring for discovered results
+- Parallel search pipeline
+- Improved matching accuracy
+- Cloud deployment support
+
+---
+
+## Author
+
+**Soniya Thota**
+
+MS in Computer Science  
+University at Buffalo
+
+---
+
+## License
+
+This project was developed as part of an AI engineering take-home assignment and is intended for educational and demonstration purposes.
