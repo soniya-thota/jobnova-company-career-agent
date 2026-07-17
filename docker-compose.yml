@@ -1,0 +1,9 @@
+services:
+  agent:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - jobnova_profile:/app/backend/.jobnova_browser_profile
+volumes:
+  jobnova_profile:
